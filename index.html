@@ -4,60 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Живая нить — семейные истории Тюмени</title>
-    <!-- Общие стили (убедитесь, что style.css загружен) -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Шрифты и иконки -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
+    <!-- Font Awesome для иконок -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Шрифты Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
+    <style>
+        /* Все стили прямо здесь, чтобы быть уверенными */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(145deg, #f7efe3 0%, #dbbc9f 100%);
+            min-height: 100vh;
+        }
+        .page-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(3px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: linear-gradient(135deg, #1A3B4F 0%, #23576B 100%);
+            color: #F7F3EB;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid #D55C4A;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        header h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        header h1 i { color: #E1C6A8; }
+        header .subtitle {
+            font-size: 1.4rem;
+            color: #E1C6A8;
+            font-style: italic;
+        }
+        .home-main {
+            flex: 1;
+            padding: 2rem;
+        }
+        .categories {
+            text-align: center;
+        }
+        .categories h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: #1A3B4F;
+            margin-bottom: 2rem;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .category-card {
+            border-radius: 32px;
+            padding: 2rem 1.5rem;
+            text-decoration: none;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            min-height: 250px;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .category-card > * {
+            position: relative;
+            z-index: 2;
+        }
+        .category-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .category-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .category-card p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+        }
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #1A3B4F;
+        }
+    </style>
 </head>
 <body>
-    <div class="page-wrapper home-page">
-        <!-- Шапка с названием и описанием -->
+    <div class="page-wrapper">
         <header>
             <h1><i class="fas fa-tree"></i> Живая нить</h1>
             <p class="subtitle">Семейные истории на карте Тюмени</p>
         </header>
-
-        <!-- Основной контент: категории -->
         <main class="home-main">
             <section class="categories">
                 <h2>Выберите категорию историй</h2>
                 <div class="category-grid">
                     <a href="map.html?category=love" class="category-card" style="background-image: linear-gradient(135deg, #d55c4a, #b84a3b);">
-                        <i class="fas fa-heart"></i>
-                        <h3>Любовь и разлука</h3>
-                        <p>Истории о встречах, расставаниях и настоящих чувствах</p>
+                        <i class="fas fa-heart"></i><h3>Любовь и разлука</h3><p>Истории о встречах, расставаниях и настоящих чувствах</p>
                     </a>
                     <a href="map.html?category=war" class="category-card" style="background-image: linear-gradient(135deg, #1a3b4f, #0f2a38);">
-                        <i class="fas fa-medal"></i>
-                        <h3>Подвиг в тылу</h3>
-                        <p>Как тюменцы ковали Победу в годы войны</p>
+                        <i class="fas fa-medal"></i><h3>Подвиг в тылу</h3><p>Как тюменцы ковали Победу в годы войны</p>
                     </a>
                     <a href="map.html?category=house" class="category-card" style="background-image: linear-gradient(135deg, #e1c6a8, #c9af91);">
-                        <i class="fas fa-home"></i>
-                        <h3>Тайны старого дома</h3>
-                        <p>Истории деревянных особняков и их обитателей</p>
+                        <i class="fas fa-home"></i><h3>Тайны старого дома</h3><p>Истории деревянных особняков и их обитателей</p>
                     </a>
                     <a href="map.html?category=journey" class="category-card" style="background-image: linear-gradient(135deg, #b28b6f, #8b6e4b);">
-                        <i class="fas fa-suitcase"></i>
-                        <h3>Дорога жизни</h3>
-                        <p>Переезды, эвакуация, поиски лучшей доли</p>
+                        <i class="fas fa-suitcase"></i><h3>Дорога жизни</h3><p>Переезды, эвакуация, поиски лучшей доли</p>
                     </a>
                     <a href="map.html?category=funny" class="category-card" style="background-image: linear-gradient(135deg, #dbbc9f, #c9a88b);">
-                        <i class="fas fa-grin-tears"></i>
-                        <h3>Курьёзы и совпадения</h3>
-                        <p>Смешные и невероятные семейные байки</p>
+                        <i class="fas fa-grin-tears"></i><h3>Курьёзы и совпадения</h3><p>Смешные и невероятные семейные байки</p>
                     </a>
                     <a href="map.html?category=tradition" class="category-card" style="background-image: linear-gradient(135deg, #f7efe3, #e1d9cd); color: #1a3b4f;">
-                        <i class="fas fa-hand-holding-heart"></i>
-                        <h3>Семейные традиции</h3>
-                        <p>Рецепты, праздники и обычаи, которые передаются из поколения в поколение</p>
+                        <i class="fas fa-hand-holding-heart"></i><h3>Семейные традиции</h3><p>Рецепты, праздники и обычаи, которые передаются из поколения в поколение</p>
                     </a>
                 </div>
             </section>
         </main>
-
-        <!-- Подвал -->
         <footer>
             <p>Проект «Живая нить» | Тюмень, 2026</p>
         </footer>
