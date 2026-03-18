@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Живая нить — карта историй</title>
+    <!-- Яндекс.Карты API (замените ключ) -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=b6e4b3a1-81ae-4380-98f1-2ff26b67f41b&lang=ru_RU" type="text/javascript"></script>
+    <!-- Общие стили -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Шрифты и иконки -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <header>
+            <div class="header-top">
+                <a href="index.html" class="home-link"><i class="fas fa-home"></i> На главную</a>
+            </div>
+            <h1><i class="fas fa-tree"></i> Живая нить</h1>
+            <p class="subtitle">Карта семейных историй Тюмени</p>
+        </header>
+
+        <div class="stats-bar">
+            <span><i class="fas fa-map-marker-alt"></i> Всего историй: <span id="total-stories">0</span></span>
+            <span><i class="fas fa-clock"></i> На модерации: <span id="pending-stories">0</span></span>
+            <span><i class="fas fa-check-circle"></i> Опубликовано: <span id="published-stories">0</span></span>
+        </div>
+
+        <div class="search-panel">
+            <input type="text" id="search-input" placeholder="🔍 Поиск по историям...">
+            <select id="filter-select">
+                <option value="all">Все истории</option>
+                <option value="published">Только опубликованные</option>
+                <option value="pending">На модерации</option>
+            </select>
+        </div>
+
+        <main>
+            <div id="map"></div>
+
+            <div id="sidebar">
+                <h2><i class="fas fa-list-ul"></i> Истории</h2>
+                <div id="stories-list"></div>
+                <button id="add-story-btn" class="btn"><i class="fas fa-plus-circle"></i> Добавить свою историю</button>
+            </div>
+        </main>
+
+        <!-- Модальное окно для добавления истории (без изменений) -->
+        <div id="story-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Поделитесь семейной историей</h2>
+                <form id="story-form">
+                    <label for="author">Ваше имя (или псевдоним):</label>
+                    <input type="text" id="author" required>
+
+                    <label for="title">Заголовок истории:</label>
+                    <input type="text" id="title" required>
+
+                    <label for="story">Текст истории (до 2000 символов):</label>
+                    <textarea id="story" rows="5" maxlength="2000" required></textarea>
+
+                    <label>📍 Место на карте:</label>
+                    <div id="map-picker" style="height: 250px; margin-bottom: 10px; border: 2px solid #E1C6A8;"></div>
+                    <p id="selected-coords">Щёлкните по карте, чтобы указать место истории</p>
+                    <input type="hidden" id="place-coords" required>
+                    <input type="text" id="place-address" placeholder="Или введите адрес вручную">
+
+                    <label for="photo-upload">📷 Фотография (необязательно):</label>
+                    <input type="file" id="photo-upload" accept="image/*">
+                    <div id="photo-preview"></div>
+
+                    <p class="info">* История будет опубликована после проверки модератором</p>
+                    <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Отправить</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Модальное окно просмотра УДАЛЕНО -->
+
+        <div id="save-panel">
+            <button id="save-json" class="btn-small"><i class="fas fa-download"></i> Сохранить истории</button>
+            <button id="load-json" class="btn-small"><i class="fas fa-upload"></i> Загрузить истории</button>
+            <input type="file" id="upload-json" accept=".json" style="display: none;">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
