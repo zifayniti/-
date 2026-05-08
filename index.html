@@ -1,33 +1,259 @@
-.hidden-block {
-  opacity: 0;
-  transform: translateY(40px);
-  transition:
-    opacity 1s ease,
-    transform 1s ease;
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Живая нить — семейный цифровой диалог</title>
 
-.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-.stat-card,
-.question-card,
-.practice-card,
-.team-card,
-.research-card,
-.primary-btn,
-.secondary-btn {
-  transition:
-    transform 0.35s ease,
-    background 0.3s ease,
-    box-shadow 0.3s ease;
-}
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-.team-card:hover,
-.question-card:hover,
-.practice-card:hover,
-.stat-card:hover,
-.research-card:hover {
-  box-shadow: 0 20px 50px rgba(0,0,0,0.18);
-}
+<canvas id="thread-canvas"></canvas>
+
+<header class="header">
+  <div class="container nav">
+    <div class="logo-block">
+      <div id="admin-trigger" class="thread-ball">🧶</div>
+      <div>
+        <h1 class="logo-title">Живая нить</h1>
+        <p class="logo-subtitle">семейный цифровой диалог</p>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#about">О проекте</a>
+      <a href="#problem">Проблема</a>
+      <a href="#research">Исследование</a>
+      <a href="#dialog">Диалог</a>
+      <a href="#team">Команда</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-badge">ТюмГУ · Цифровая культура · ОРГ</div>
+
+      <h1 class="main-title">
+        Живая<br>
+        нить
+      </h1>
+
+      <p class="hero-text">
+        Цифровая платформа для семейного диалога,
+        сохранения семейной памяти и межпоколенческого общения.
+      </p>
+
+      <div class="hero-buttons">
+        <a class="primary-btn" href="#dialog">Начать диалог</a>
+        <a class="secondary-btn" href="#research">Исследование</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-emoji">👨‍👩‍👧</div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="content-section">
+  <div class="container glass-block">
+    <h2>О проекте</h2>
+
+    <p>
+      «Живая нить» — студенческий проект ТюмГУ,
+      посвящённый семейному диалогу в цифровой среде.
+    </p>
+
+    <p>
+      Проект исследует, как современные цифровые технологии
+      могут помогать сохранять семейную память,
+      поддерживать межпоколенческое общение и создавать
+      пространство для осмысленного семейного взаимодействия.
+    </p>
+  </div>
+</section>
+
+<section id="problem" class="content-section">
+  <div class="container">
+    <h2 class="section-title">Почему это важно?</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>69%</h3>
+        <p>молодежи предпочитают онлайн-коммуникацию</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>97%</h3>
+        <p>хотят лучше знать историю своей семьи</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>57%</h3>
+        <p>сталкиваются со сложностями общения поколений</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>80%</h3>
+        <p>сохраняют семейные традиции</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research" class="content-section">
+  <div class="container glass-block">
+    <h2>Результаты исследования</h2>
+
+    <div class="research-grid">
+      <div class="research-card">
+        <h3>Молодежь</h3>
+        <ul>
+          <li>Большинство регулярно общаются с семьей</li>
+          <li>Цифровая коммуникация стала нормой</li>
+          <li>Сохраняется интерес к семейной памяти</li>
+          <li>Есть запрос на семейные цифровые сервисы</li>
+        </ul>
+      </div>
+
+      <div class="research-card">
+        <h3>Старшее поколение</h3>
+        <ul>
+          <li>Важно передавать семейный опыт</li>
+          <li>Есть интерес к цифровому архиву семьи</li>
+          <li>Возникают сложности общения поколений</li>
+          <li>Цифровые технологии воспринимаются положительно</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dialog" class="content-section">
+  <div class="container">
+    <h2 class="section-title">Начните разговор</h2>
+
+    <div class="questions-grid">
+      <div class="question-card">
+        <span>💬</span>
+        <p>Как познакомились ваши родители?</p>
+      </div>
+
+      <div class="question-card">
+        <span>📖</span>
+        <p>Какая семейная традиция вам особенно дорога?</p>
+      </div>
+
+      <div class="question-card">
+        <span>✨</span>
+        <p>О чем мечтали ваши бабушка и дедушка?</p>
+      </div>
+
+      <div class="question-card">
+        <span>🕰️</span>
+        <p>Какое воспоминание о семье самое важное?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container glass-block">
+    <h2>Карта семейной памяти Тюмени</h2>
+
+    <div class="map-preview">
+      <div class="map-overlay">
+        <h3>Интерактивная карта семейных историй</h3>
+        <p>
+          Пользователи смогут добавлять семейные воспоминания,
+          памятные места и истории поколений на карту города.
+        </p>
+
+        <a class="primary-btn" href="#">Открыть карту</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+    <h2 class="section-title">Семейные практики</h2>
+
+    <div class="practice-grid">
+      <div class="practice-card">📵 Вечер без телефонов</div>
+      <div class="practice-card">🎤 Записать воспоминание родственника</div>
+      <div class="practice-card">📸 Создать семейный фотоархив</div>
+      <div class="practice-card">🚶 Прогулка по памятным местам</div>
+    </div>
+  </div>
+</section>
+
+<section id="team" class="content-section">
+  <div class="container">
+    <h2 class="section-title">Команда проекта</h2>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="member-icon">💻</div>
+        <h3>Скворцов Даниил Сергеевич</h3>
+        <p class="role">Разработчик</p>
+        <p class="quote">«Технологии должны помогать сохранять живое общение.»</p>
+      </div>
+
+      <div class="team-card">
+        <div class="member-icon">📋</div>
+        <h3>Шадринцева Александра Романовна</h3>
+        <p class="role">Координатор проекта</p>
+        <p class="quote">«Семейный диалог — важная часть эмоциональной устойчивости.»</p>
+      </div>
+
+      <div class="team-card">
+        <div class="member-icon">📝</div>
+        <h3>Мартьянова Кристина Геннадьевна</h3>
+        <p class="role">Контент-менеджер</p>
+        <p class="quote">«Истории семьи помогают сохранять связь поколений.»</p>
+      </div>
+
+      <div class="team-card">
+        <div class="member-icon">📢</div>
+        <h3>Кривенко Виктория Дмитриевна</h3>
+        <p class="role">PR и коммуникации</p>
+        <p class="quote">«Цифровые проекты могут формировать культуру общения.»</p>
+      </div>
+
+      <div class="team-card">
+        <div class="member-icon">📊</div>
+        <h3>Хабибуллин Руслан Рифович</h3>
+        <p class="role">Аналитика и исследование</p>
+        <p class="quote">«Исследование потребностей делает продукт полезным.»</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-content">
+    <div>
+      <h3>Живая нить</h3>
+      <p>Проект студентов ТюмГУ</p>
+    </div>
+
+    <div>
+      <p>Тюмень · 2026</p>
+      <p>Цифровая культура · Основы российской государственности</p>
+    </div>
+  </div>
+</footer>
+
+<script src="canvas-thread.js"></script>
+</body>
+</html>

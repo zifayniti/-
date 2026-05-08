@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Живая нить — карта историй</title>
+    <!-- Замените YOUR_API_KEY_HERE на свой ключ Яндекс.Карт -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=b6e4b3a1-81ae-4380-98f1-2ff26b67f41b&lang=ru_RU"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* дополнительные стили для модалки */
+        #map-picker { height: 250px; border-radius: 24px; border: 2px solid #DCC2A8; margin: 10px 0; }
+        .admin-only { display: none; }
+        body.admin-mode .admin-only { display: inline-flex; }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header>
+            <div class="header-top">
+                <a href="index.html" class="home-link"><i class="fas fa-home"></i> На главную</a>
+            </div>
+            <h1><i class="fas fa-tree"></i> Живая нить</h1>
+            <p class="subtitle">Карта семейных историй Тюмени</p>
+            <div id="admin-trigger-map" class="thread-ball" style="position: absolute; top: 20px; right: 20px;">🧶</div>
+        </header>
+
+        <div class="stats-bar">
+            <span><i class="fas fa-map-marker-alt"></i> Всего историй: <span id="total-stories">0</span></span>
+            <span class="admin-only"><i class="fas fa-clock"></i> На модерации: <span id="pending-stories">0</span></span>
+        </div>
+
+        <div class="search-panel">
+            <input type="text" id="search-input" placeholder="🔍 Поиск по историям...">
+            <select id="filter-category">
+                <option value="all">Все категории</option>
+                <option value="love">Любовь и разлука</option>
+                <option value="war">Подвиг в тылу</option>
+                <option value="house">Тайны старого дома</option>
+                <option value="journey">Дорога жизни</option>
+                <option value="funny">Курьёзы и совпадения</option>
+                <option value="tradition">Семейные традиции</option>
+            </select>
+            <select id="filter-status" class="admin-only">
+                <option value="all">Все статусы</option>
+                <option value="approved">Опубликованные</option>
+                <option value="pending">На модерации</option>
+            </select>
+        </div>
+
+        <main>
+            <div id="map"></div>
+            <div id="sidebar">
+                <h2><i class="fas fa-list-ul"></i> Истории</h2>
+                <div id="stories-list"></div>
+                <button id="add-story-btn" class="btn"><i class="fas fa-plus-circle"></i> Добавить свою историю</button>
+            </div>
+        </main>
+
+        <!-- Модальное окно добавления истории -->
+        <div id="story-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Поделитесь семейной историей</h2>
+                <form id="story-form">
+                    <label for="author">Ваше имя (или псевдоним):</label>
+                    <input type="text" id="author" required>
+
+                    <label for="title">Заголовок истории:</label>
+                    <input type="text" id="title" required>
+
+                    <label for="story">Текст истории (до 2000 символов):</label>
+                    <textarea id="story" rows="5" maxlength="2000" required></textarea>
+
+                    <label for="category">Категория:</label>
+                    <select id="category" required>
+                        <option value="love">Любовь и разлука</option>
+                        <option value="war">Подвиг в тылу</option>
+                        <option value="house">Тайны старого дома</option>
+                        <option value="journey">Дорога жизни</option>
+                        <option value="funny">Курьёзы и совпадения</option>
+                        <option value="tradition">Семейные традиции</option>
+                    </select>
+
+                    <label>📍 Место на карте:</label>
+                    <div id="map-picker"></div>
+                    <p id="selected-coords">Щёлкните по карте, чтобы указать место истории</p>
+                    <input type="hidden" id="place-coords" required>
+                    <input type="text" id="place-address" placeholder="Или введите адрес вручную">
+
+                    <label for="photo-upload">📷 Фотография (необязательно):</label>
+                    <input type="file" id="photo-upload" accept="image/*">
+                    <div id="photo-preview"></div>
+
+                    <p class="info">* История будет опубликована после проверки модератором</p>
+                    <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // автоматическое открытие модалки, если перешли по ?add=true
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('add') === 'true') {
+            setTimeout(() => document.getElementById('add-story-btn').click(), 500);
+        }
+        // Клубок на карте также служит триггером для админа (5 кликов)
+        const triggerMap = document.getElementById('admin-trigger-map');
+        if (triggerMap) {
+            let clickCount = 0, timer;
+            triggerMap.addEventListener('click', () => {
+                clickCount++;
+                clearTimeout(timer);
+                timer = setTimeout(() => clickCount = 0, 1000);
+                if (clickCount === 5) {
+                    const pwd = prompt('Введите пароль администратора');
+                    if (pwd === 'admin123') {
+                        sessionStorage.setItem('admin', 'true');
+                        document.body.classList.add('admin-mode');
+                        alert('Режим администратора активирован, обновите страницу');
+                        location.reload();
+                    } else alert('Неверный пароль');
+                    clickCount = 0;
+                }
+            });
+        }
+        // если уже админ, добавляем класс
+        if (sessionStorage.getItem('admin') === 'true') document.body.classList.add('admin-mode');
+    </script>
+</body>
+</html>
